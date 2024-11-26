@@ -83,7 +83,7 @@ public class AttendanceController {
         logger.info("Attendance: {}" , date);
         logger.info("Attendance: {}" , status );
         logger.info("Attendance: {}" , userId );
-        return "redirect:/user/markAttendance";
+        return "redirect:/admin/markAttendance";
 
     }
 
