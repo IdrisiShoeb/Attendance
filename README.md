@@ -64,12 +64,15 @@ Run Application
 
 ## Testing
 
-**1.** Import the data provided in this repository to your database (use MySql workbench) .
+**1.** Run the project in IntelliJ Idea .
+**2.** Register multiple accounts at http://localhost:8080/register .
+**3.** Set an user role as "ROLE_ADMIN" in the database to grant admin permissions.
+**4.** Use the Application.
 
-**2.** Run the project in IntelliJ Idea .
+
 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.[MIT
+This project is licensed under the MIT License - see the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
 
