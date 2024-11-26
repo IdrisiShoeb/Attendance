@@ -43,6 +43,23 @@ Update the application.properties file to configure your database connection.
     spring.jpa.hibernate.ddl-auto=update
     spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 ```
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/IdrisiShoeb/Attendance.git
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Open project in IntelliJ Idea
+
+Run Application
 
 
 ## Testing
