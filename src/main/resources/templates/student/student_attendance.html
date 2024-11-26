@@ -1,0 +1,101 @@
+
+
+<!DOCTYPE html>
+<html
+        lang="en"
+        data-th-replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+        xmlns:th="http://thymeleaf.org"
+>
+<head>
+    <title data-th-text="${loggedInUser.name}+' |  Dashboard'">
+        Attendance
+    </title>
+
+</head>
+
+<style>
+    html,
+body,
+.intro {
+  height: 100%;
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card {
+  border-radius: .5rem;
+}
+        .hidden {
+            display: none;
+        }
+
+</style>
+<body>
+
+
+<div id="content">
+    <!-- user is logged in : sidebar -->
+
+    <!--    <div data-th-if="${loggedInUser}">-->
+    <!--        <div data-th-replace="~{user/sidebar :: sidebar}"></div>-->
+    <!--    </div>-->
+
+    <div class="container pt-5">
+        <div>
+            <h1 class="text-center">Your Attendance</h1>
+        </div>
+
+
+
+        <div id="calendar" style="max-height: 500px;" th:if="${jsonAttendanceDates != null && !jsonAttendanceDates.isEmpty()}"></div>
+
+        <script th:inline="javascript">
+            console.log("Hello")
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+
+                // Correctly embed and parse JSON data from Thymeleaf
+                var jsonAttendanceDates = /*[[${jsonAttendanceDates}]]*/ '{}';
+                jsonAttendanceDate = JSON.parse(jsonAttendanceDates);
+
+                // Prepare the events from the JSON data
+                var events = [];
+                for (var userId in jsonAttendanceDate) {
+                    var dates = jsonAttendanceDate[userId];
+                    dates.forEach(function(date) {
+                        events.push({
+                            title: 'Present',
+                            start: date,
+                            allDay: true,
+                            color: 'green' // Customize the color as needed
+                        });
+                    });
+                }
+
+                // Only initialize the calendar if there are events
+                if (events.length > 0) {
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        events: events // Set the events to the calendar
+                    });
+
+                    calendar.render();
+                }
+            });
+
+
+</script>
+
+            </div>
+        </div>
+
+        <script>
+            console.log("Students Attendance page");
+</script>
+</body>
+</html>

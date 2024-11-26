@@ -1,0 +1,15 @@
+<div
+        data-th-if="${session.message}"
+        data-th-object="${session.message}"
+        data-th-fragment="msgbox"
+        data-th-classappend="*{'text-center text-info'}"
+        class="flex items-center p-4 mb-4 text-sm"
+        role="alert"
+>
+
+    <span class="sr-only">Info</span>
+    <div>
+        <span data-th-text="*{content}"></span>
+    </div>
+    <data-th-block data-th-text="${@sessionHelper.removeMsg()}"> </data-th-block>
+</div>

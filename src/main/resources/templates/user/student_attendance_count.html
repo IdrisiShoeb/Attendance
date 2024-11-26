@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html
+        lang="en"
+        data-th-replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+        xmlns:th="http://thymeleaf.org"
+>
+<head>
+    <title data-th-text="${loggedInUser.name}+' |  Dashboard'">
+        Contacts Page
+    </title>
+
+</head>
+
+<style>
+    html,
+body,
+.intro {
+  height: 100%;
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card {
+  border-radius: .5rem;
+}
+        .hidden {
+            display: none;
+        }
+    #calendar {
+    min-height: 400px; /* Set your desired minimum height */
+}
+
+</style>
+<body>
+
+
+<div id="content">
+    <!-- user is logged in : sidebar -->
+
+    <!--    <div data-th-if="${loggedInUser}">-->
+    <!--        <div data-th-replace="~{user/sidebar :: sidebar}"></div>-->
+    <!--    </div>-->
+
+    <div class="container pt-5">
+        <div>
+            <h1 class="text-center">View Student Attendance</h1>
+            <p class="text-center">List of all students...</p>
+        </div>
+
+        <div class="align-items-center text-center p-5 ">
+
+
+        <form  data-th-action="@{/admin/studentAttendance}" method="get" data-th-object="${attendanceForm}">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" data-th-field="*{startDate}" required/>
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" data-th-field="*{endDate}" required/>
+
+            <button type="submit">Count Attendance</button>
+        </form>
+        </div>
+
+        <div class="align-items-center text-center p-5">
+            <a data-th-href="@{/export(startDate=${attendanceForm.startDate}, endDate=${attendanceForm.endDate})}" >
+                <button type="submit" class="btn btn-primary">Export to Excel</button>
+            </a>
+        </div>
+
+
+<!--        <div class="student-container">-->
+        <div data-th-class="${students == null or #lists.isEmpty(students)} ? 'hidden' : ''"></div>
+            <section class="intro">
+                <div >
+                    <div class="mask d-flex align-items-center h-100">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <div class="card shadow-2-strong" style="background-color: #f5f7fa;">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless mb-0">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">RollNo</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Phone</th>
+                                                        <th scope="col">Attendance</th>
+                                                        <th scope="col">Percentage</th>
+                                                        <th scope="col">View</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-th-object="${s}" data-th-each="s  : ${students}">
+                                                        <td data-th-text="*{rollNo}">216</td>
+                                                        <td data-th-text="*{name}">Shoeb</td>
+                                                        <td data-th-text="*{phoneNo}">7710974965</td>
+                                                        <td data-th-text="*{attendanceCount}">100%</td>
+                                                        <td data-th-text="*{attendancePercentage}+ '%'">100%</td>
+
+<!--                                                        <td>-->
+<!--                                                            <button type="button" class="btn btn-primary"-->
+<!--                                                                    th:onclick="'openModal(\'' + ${name} + '\')'">-->
+<!--                                                                View-->
+<!--                                                            </button>-->
+<!--                                                        </td>-->
+
+                                                        <!-- Button for opening modal -->
+<!--                                                        <button type="button" class="btn btn-primary"-->
+<!--                                                                th:data-toggle="modal"-->
+<!--                                                                th:data-target="'#attendanceModal' + ${s.userId}">-->
+<!--                                                            View-->
+<!--                                                        </button>-->
+                                                        <td>
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#attendanceModal"
+                                                                th:attr="data-student-id=${s.userId}">>
+                                                            View
+                                                        </button></td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+<!--                                                &lt;!&ndash; Modal &ndash;&gt;-->
+<!--                                                <div class="modal fade modal-dialog modal-dialog-centered modal-dialog-scrollable" id="attendanceModal" tabindex="-1" role="dialog" aria-labelledby="attendanceModalLabel" aria-hidden="true">-->
+<!--                                                    <div class="modal-dialog" role="document">-->
+<!--                                                        <div class="modal-content">-->
+<!--                                                            <div class="modal-header">-->
+<!--                                                                <h5 class="modal-title" id="attendanceModalLabel">Attendance Calendar</h5>-->
+<!--                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">-->
+<!--                                                                    <span aria-hidden="true">&times;</span>-->
+<!--                                                                </button>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="modal-body">-->
+<!--                                                                <div id="calendar"></div>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="modal-footer">-->
+<!--                                                                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+                                                <!-- Modal for Attendance Calendar -->
+                                                <div class="modal fade modal-dialog modal-dialog-centered modal-dialog-scrollable" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true"
+                                                     th:attr="data-attendance-dates=${jsonAttendanceDates}">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="attendanceModalLabel">Attendance Calendar</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div id="calendar" style="min-height: 300px;"></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    console.log("Students Attendance page");
+</script>
+</body>
+</html>

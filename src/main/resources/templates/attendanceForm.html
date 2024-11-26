@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Attendance Form</title>
+</head>
+<body>
+
+<h1>Attendance Count</h1>
+
+<form action="#" th:action="@{/countAttendance}" method="post" th:object="${attendanceForm}">
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" th:field="*{startDate}" required/>
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" th:field="*{endDate}" required/>
+
+    <button type="submit">Count Attendance</button>
+</form>
+
+</body>
+</html>
